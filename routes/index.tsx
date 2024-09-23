@@ -23,7 +23,7 @@ export default function Home() {
           <section id="hero" class="text-center py-20">
             <h1 class="text-6xl font-bold mb-4">Hi, I'm Leo Zhang</h1>
             <p class="text-xl mb-8">
-              A software engineer and student passionate about machine learning, robotics, and dev ops.
+              A fullstack software engineer and student passionate about machine learning, robotics, and dev ops.
             </p>
             <div class="flex justify-center space-x-4 mb-8">
               <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-indigo-600">
