@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals";
-import Navbar from "../islands/Navbar.tsx";
+import Navbar from "@islands/Navbar.tsx";
 
 const LandingPage = () => {
   const menuStatus = useSignal(false);
