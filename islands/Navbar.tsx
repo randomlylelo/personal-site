@@ -7,18 +7,25 @@ interface NavbarProps {
 }
 
 export default function Navbar({ menuStatus }: NavbarProps) {
+  const navItems = [
+    { name: "About", href: "#about" },
+    { name: "Projects", href: "#projects" },
+    { name: "Experience", href: "#experience" },
+    { name: "Contact", href: "#contact" },
+  ];
+
   return (
-    <header class="bg-white shadow-sm">
-      <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-indigo-600">LZ</h1>
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+      <nav class="container mx-auto px-4 py-3 flex justify-between items-center max-w-4xl">
+        <a href="#" class="text-2xl font-bold text-indigo-600">LZ</a>
         <div class="hidden md:flex space-x-4">
-          {["About", "Projects", "Experience", "Contact"].map((item) => (
+          {navItems.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.name}
+              href={item.href}
               class="hover:text-indigo-600"
             >
-              {item}
+              {item.name}
             </a>
           ))}
         </div>
@@ -36,13 +43,14 @@ export default function Navbar({ menuStatus }: NavbarProps) {
           id="mobile-menu"
           class="md:hidden bg-white shadow transition-all duration-300"
         >
-          {["About", "Projects", "Experience", "Contact"].map((item) => (
-            <li key={item}>
+          {navItems.map((item) => (
+            <li key={item.name}>
               <a
-                href={`#${item.toLowerCase()}`}
+                href={item.href}
                 class="block py-2 px-4 hover:bg-gray-200"
+                onClick={() => menuStatus.value = false}
               >
-                {item}
+                {item.name}
               </a>
             </li>
           ))}
