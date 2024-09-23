@@ -8,9 +8,9 @@ interface NavbarProps {
 
 export default function Navbar({ menuStatus }: NavbarProps) {
   const navItems = [
-    { name: "About", href: "#about" },
     { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "About Me", href: "#me" },
+    { name: "Blog", href: "#blog" },
   ];
 
   return (
