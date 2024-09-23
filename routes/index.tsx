@@ -4,22 +4,7 @@ import { useSignal } from "@preact/signals";
 import Navbar from "@islands/Navbar.tsx";
 import SectionHeader from "@components/SectionHeader.tsx";
 import { Github, Linkedin, Mail, Twitter } from "lucide";
-
-import { FunctionalComponent } from "preact";
-
-interface CardHeaderProps {
-  text: string;
-}
-
-const CardHeader: FunctionalComponent<CardHeaderProps> = ({ text }) => {
-  return (
-    <div class="flex items-center text-lg font-mono mb-2">
-      <span class="text-secondary mr-1">$</span>
-      <span class="text-secondary">cd</span>
-      <span class="text-primary ml-2">{text}</span>
-    </div>
-  );
-};
+import ProjectCard from "@components/ProjectCard.tsx";
 
 export default function Home() {
   const menuStatus = useSignal(false);
@@ -79,25 +64,16 @@ export default function Home() {
           <section class="pt-20">
             <SectionHeader text="Projects" href="#projects" />
             <div class="grid md:grid-cols-2 gap-6">
-              <a
+              <ProjectCard
                 href="https://github.com/aerorobotics/ros2basilisk"
-                class="block bg-white p-6 rounded-lg shadow transition transform hover:shadow-lg hover:scale-105"
-              >
-                <CardHeader text="ros2basilisk" />
-                <p class="mb-4">
-                  Open-source wrapper to provide a ROS2-interface for Basilisk. To do spacecraft simulations in ROS2.
-                </p>
-              </a>
-
-              <a
+                title="ros2basilisk"
+                description="Open-source wrapper to provide a ROS2-interface for Basilisk. To do spacecraft simulations in ROS2."
+              />
+              <ProjectCard
                 href="https://github.com/randomlylelo/dotfiles"
-                class="block bg-white p-6 rounded-lg shadow transition transform hover:shadow-lg hover:scale-105"
-              >
-                <CardHeader text="dotfiles" />
-                <p class="mb-4">
-                  Personal dotfiles for my local computer setup. Includes configurations for zsh and wallpapers.
-                </p>
-              </a>
+                title="dotfiles"
+                description="Personal dotfiles for my local computer setup. Includes configurations for zsh and wallpapers."
+              />
             </div>
           </section>
 
