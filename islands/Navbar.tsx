@@ -10,14 +10,13 @@ export default function Navbar({ menuStatus }: NavbarProps) {
   const navItems = [
     { name: "About", href: "#about" },
     { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
     <header class="bg-white shadow-sm sticky top-0 z-10">
       <nav class="container mx-auto px-4 py-3 flex justify-between items-center max-w-4xl">
-        <a href="#" class="text-2xl font-bold text-indigo-600">LZ</a>
+        <a href="" class="text-2xl font-bold text-indigo-600">LZ</a>
         <div class="hidden md:flex space-x-4">
           {navItems.map((item) => (
             <a
