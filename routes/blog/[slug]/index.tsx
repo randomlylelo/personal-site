@@ -9,6 +9,7 @@ interface BlogPost {
   slug: string;
   title: string;
   date: string;
+  lastUpdated: string;
   content: string;
 }
 
@@ -24,7 +25,8 @@ export const handler: Handlers<BlogPost> = {
       const post: BlogPost = {
         slug,
         title: attrs.title || "Untitled Post",
-        date: attrs.date.toISOString().split("T")[0] || new Date().toISOString().split("T")[0],
+        date: attrs.date.toISOString().split("T")[0],
+        lastUpdated: attrs.lastUpdated.toISOString().split("T")[0],
         content: render(body),
       };
 
@@ -63,7 +65,8 @@ export default function BlogPost({ data: post }: PageProps<BlogPost | null>) {
       <main class="mx-auto px-4 py-2 max-w-4xl">
         <article class="mt-20">
           <SectionHeaderTwoLevels text="Blog" href="/blog" text2={post.title} href2={`/blog/${post.slug}`}/>
-          <time class="text-sm text-gray-500 mb-6 block">{post.date}</time>
+          <time class="text-sm text-gray-500 block">Created: {post.date}</time>
+          <time class="text-sm text-gray-500 mb-6 block">Last Updated: {post.lastUpdated}</time>
           <div
             class="markdown-content"
             dangerouslySetInnerHTML={{ __html: post.content }}

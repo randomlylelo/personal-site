@@ -56,8 +56,7 @@ export default function Home({ data: recentPosts }: PageProps<BlogPost[]>) {
         <section id="hero" class="text-center pt-20">
           <h1 class="text-6xl font-bold mb-4">Hi, I'm Leo Zhang</h1>
           <p class="text-xl mb-8">
-            A fullstack software engineer and student passionate about machine
-            learning, robotics, and dev ops.
+            A fullstack software engineer and student passionate about robotics, systems, and more.
           </p>
           <div class="flex justify-center space-x-4 mb-8">
             <a
@@ -128,7 +127,7 @@ export default function Home({ data: recentPosts }: PageProps<BlogPost[]>) {
 
         <div id="blog" />
         <section class="pt-20">
-          <SectionHeader text="Blog" href="#blog" />
+          <SectionHeader text="Blog" href="/blog" />
           <div class="space-y-8">
             {recentPosts.map((post) => (
               <ProjectCard

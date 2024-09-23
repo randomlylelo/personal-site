@@ -10,7 +10,7 @@ export default function Navbar({ menuStatus }: NavbarProps) {
   const navItems = [
     { name: "Projects", href: "/#projects" },
     { name: "About Me", href: "/#me" },
-    { name: "Blog", href: "/#blog" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
