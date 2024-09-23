@@ -3,6 +3,7 @@ import { Head } from "$fresh/runtime.ts";
 import { useSignal } from "@preact/signals";
 import Navbar from "@islands/Navbar.tsx";
 import SectionHeader from "@components/SectionHeader.tsx";
+import ProjectCard from "@components/ProjectCard.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { extract } from "$std/front_matter/yaml.ts";
 
@@ -56,18 +57,12 @@ export default function BlogIndex({ data: posts }: PageProps<BlogPost[]>) {
             <SectionHeader text="Blog" href="#blog" />
             <div class="space-y-8">
               {posts.map((post) => (
-                <article key={post.slug} class="bg-white shadow-md rounded-lg p-6">
-                  <h2 class="text-2xl font-bold mb-2">
-                    <a href={`/blog/${post.slug}`} class="hover:text-primary">
-                      {post.title}
-                    </a>
-                  </h2>
-                  <time class="text-sm text-gray-500 mb-3 block">{post.date}</time>
-                  <p class="text-gray-700">{post.excerpt}</p>
-                  <a href={`/blog/${post.slug}`} class="inline-block mt-4 text-primary hover:underline">
-                    Read more →
-                  </a>
-                </article>
+                <ProjectCard
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  title={post.title}
+                  description={`${post.date} - ${post.excerpt}`}
+                />
               ))}
             </div>
           </section>

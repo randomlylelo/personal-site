@@ -5,8 +5,49 @@ import Navbar from "@islands/Navbar.tsx";
 import SectionHeader from "@components/SectionHeader.tsx";
 import { Github, Linkedin, Mail, Twitter } from "lucide";
 import ProjectCard from "@components/ProjectCard.tsx";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { extract } from "$std/front_matter/yaml.ts";
 
-export default function Home() {
+interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+}
+
+export const handler: Handlers<BlogPost[]> = {
+  async GET(_, ctx) {
+    const posts: BlogPost[] = [];
+
+    for await (const dirEntry of Deno.readDir("./blog")) {
+      if (dirEntry.isFile && dirEntry.name.endsWith(".md")) {
+        const content = await Deno.readTextFile(`./blog/${dirEntry.name}`);
+        const { attrs, body } = extract(content);
+
+        const slug = dirEntry.name.replace(".md", "");
+        const excerpt = body.split("\n").find((line) => line.trim() !== "") ||
+          "";
+        posts.push({
+          slug,
+          title: attrs.title || "Untitled Post",
+          date: attrs.date.toISOString().split("T")[0] ||
+            new Date().toISOString().split("T")[0],
+          excerpt: attrs.excerpt || excerpt.slice(0, 150) + "...",
+        });
+      }
+    }
+
+    // Sort posts by date, most recent first
+    posts.sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    // Return only the 5 most recent posts
+    return ctx.render(posts.slice(0, 5));
+  },
+};
+
+export default function Home({ data: recentPosts }: PageProps<BlogPost[]>) {
   const menuStatus = useSignal(false);
 
   return (
@@ -94,9 +135,25 @@ export default function Home() {
           <div id="blog" />
           <section class="pt-20">
             <SectionHeader text="Blog" href="#blog" />
-            <p class="text-xl">
-              Coming soon.
-            </p>
+            <div class="space-y-8">
+              {recentPosts.map((post) => (
+                <ProjectCard
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  title={post.title}
+                  description={`${post.date} | ${post.excerpt}`}
+                />
+              ))}
+            </div>
+            {recentPosts.length > 0 && (
+              <div class="mt-8">
+                <a href="/blog" class="text-primary text-lg relative group">
+                  See all posts →
+                  <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full">
+                  </span>
+                </a>
+              </div>
+            )}
           </section>
         </main>
 
