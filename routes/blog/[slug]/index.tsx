@@ -4,6 +4,7 @@ import { Head } from "$fresh/runtime.ts";
 import { useSignal } from "@preact/signals";
 import Navbar from "@islands/Navbar.tsx";
 import { CSS, render } from "@deno/gfm";
+import { extract } from "$std/front_matter/yaml.ts";
 
 interface BlogPost {
   slug: string;
@@ -15,50 +16,52 @@ interface BlogPost {
 export const handler: Handlers<BlogPost> = {
   async GET(req, ctx) {
     const slug = ctx.params.slug;
-    // In a real application, you would fetch this data from your content directory
-    // or a database. For now, we'll use mock data.
-    const post: BlogPost = {
-      slug,
-      title: "Sample Blog Post",
-      date: "2024-09-23",
-      content: `
-# Sample Blog Post
+    const filePath = `./blog/${slug}.md`;
 
-This is a sample blog post content. You can write your content in Markdown format here.
+    try {
+      const rawContent = await Deno.readTextFile(filePath);
+      const { attrs, body } = extract(rawContent);
+      
+      const post: BlogPost = {
+        slug,
+        title: attrs.title || "Untitled Post",
+        date: attrs.date || new Date().toISOString().split('T')[0],
+        content: render(body),
+      };
 
-## Subheading
-
-- List item 1
-- List item 2
-- List item 3
-
-[Link to another page](https://example.com)
-
-![Image description](https://via.placeholder.com/150)
-
-\`\`\`python
-def hello_world():
-    print("Hello, world!")
-\`\`\`
-      `,
-    };
-
-    const renderedContent = render(post.content);
-
-    return ctx.render({ ...post, content: renderedContent });
+      return ctx.render(post);
+    } catch (error) {
+      if (error instanceof Deno.errors.NotFound) {
+        return ctx.render(null);
+      }
+      throw error;
+    }
   },
 };
 
-export default function BlogPost({ data: post }: PageProps<BlogPost>) {
+export default function BlogPost({ data: post }: PageProps<BlogPost | null>) {
   const menuStatus = useSignal(false);
+
+  if (!post) {
+    return (
+      <div class="min-h-screen bg-gray-100 text-gray-900">
+        <Navbar menuStatus={menuStatus} />
+        <main class="mx-auto px-4 py-2 max-w-4xl">
+          <h1 class="text-4xl font-bold mb-4">Post Not Found</h1>
+          <p>Sorry, the requested blog post could not be found.</p>
+          <div class="mt-8">
+            <a href="/blog" class="text-primary hover:underline">← Back to Blog</a>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <>
       <Head>
         <title>{post.title} - Leo Zhang's Blog</title>
-        <style>
-          ${CSS}
-        </style>
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
         <link rel="stylesheet" href="/markdown-styles.css" />
       </Head>
       <div class="min-h-screen bg-gray-100 text-gray-900">

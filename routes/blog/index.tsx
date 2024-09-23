@@ -4,6 +4,7 @@ import { useSignal } from "@preact/signals";
 import Navbar from "@islands/Navbar.tsx";
 import SectionHeader from "@components/SectionHeader.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { extract } from "$std/front_matter/yaml.ts";
 
 interface BlogPost {
   slug: string;
@@ -14,31 +15,35 @@ interface BlogPost {
 
 export const handler: Handlers<BlogPost[]> = {
   async GET(_, ctx) {
-    // In a real application, you would fetch this data from your content directory
-    // or a database. For now, we'll use mock data.
-    const posts: BlogPost[] = [
-      {
-        slug: "first-post",
-        title: "My First Blog Post",
-        date: "2024-09-23",
-        excerpt: "This is an excerpt from my first blog post...",
-      },
-      {
-        slug: "second-post",
-        title: "Reflections on Software Engineering",
-        date: "2024-09-24",
-        excerpt: "Thoughts on the ever-evolving world of software engineering...",
-      },
-      // Add more mock posts as needed
-    ];
-
+    const posts: BlogPost[] = [];
+    
+    for await (const dirEntry of Deno.readDir("./blog")) {
+      if (dirEntry.isFile && dirEntry.name.endsWith(".md")) {
+        const content = await Deno.readTextFile(`./blog/${dirEntry.name}`);
+        const { attrs, body } = extract(content);
+        
+        const slug = dirEntry.name.replace(".md", "");
+        const excerpt = body.split("\n").find(line => line.trim() !== "") || "";
+        
+        posts.push({
+          slug,
+          title: attrs.title || "Untitled Post",
+          date: attrs.date || new Date().toISOString().split('T')[0],
+          excerpt: attrs.excerpt || excerpt.slice(0, 150) + "...",
+        });
+      }
+    }
+    
+    // Sort posts by date, most recent first
+    posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    
     return ctx.render(posts);
   },
 };
 
 export default function BlogIndex({ data: posts }: PageProps<BlogPost[]>) {
   const menuStatus = useSignal(false);
-
+  
   return (
     <>
       <Head>
