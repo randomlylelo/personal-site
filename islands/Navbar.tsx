@@ -16,7 +16,9 @@ export default function Navbar({ menuStatus }: NavbarProps) {
   return (
     <header class="bg-white shadow-sm sticky top-0 z-10">
       <nav class="container mx-auto px-4 py-3 flex justify-between items-center max-w-4xl">
-        <a href="" class="text-2xl font-bold text-primary">LZ</a>
+        <a href="" class="flex items-center">
+          <img src="/leo_icon.png" alt="Logo" class="h-8 w-8" />
+        </a>
         <div class="hidden md:flex space-x-4">
           {navItems.map((item) => (
             <a
