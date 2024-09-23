@@ -1,5 +1,4 @@
 import { type PageProps } from "$fresh/server.ts";
-import { CSS } from "@deno/gfm";
 
 export default function App({ Component }: PageProps) {
   return (
@@ -16,9 +15,7 @@ export default function App({ Component }: PageProps) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        <style>
-          ${CSS}
-        </style>
+
 
         <link rel="stylesheet" href="/styles.css" />
       </head>

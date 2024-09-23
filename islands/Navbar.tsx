@@ -8,15 +8,15 @@ interface NavbarProps {
 
 export default function Navbar({ menuStatus }: NavbarProps) {
   const navItems = [
-    { name: "Projects", href: "#projects" },
-    { name: "About Me", href: "#me" },
-    { name: "Blog", href: "#blog" },
+    { name: "Projects", href: "/#projects" },
+    { name: "About Me", href: "/#me" },
+    { name: "Blog", href: "/#blog" },
   ];
 
   return (
     <header class="bg-white shadow-sm sticky top-0 z-10">
       <nav class="container mx-auto px-4 py-3 flex justify-between items-center max-w-4xl">
-        <a href="" class="flex items-center">
+        <a href="/" class="flex items-center">
           <img src="/leo_icon.png" alt="Logo" class="h-8 w-8" />
         </a>
         <div class="hidden md:flex space-x-4">

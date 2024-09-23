@@ -1,0 +1,79 @@
+/* static/markdown-styles.css */
+
+/* Style for the container of the Markdown content */
+.markdown-content {
+  @apply max-w-none; /* This ensures the content takes full width of its container */
+}
+
+/* Headings */
+.markdown-content h1 {
+  @apply text-4xl font-bold mb-6 text-gray-900;
+}
+
+.markdown-content h2 {
+  @apply text-3xl font-semibold mb-4 mt-8 text-gray-800;
+}
+
+.markdown-content h3 {
+  @apply text-2xl font-semibold mb-3 mt-6 text-gray-800;
+}
+
+.markdown-content h4 {
+  @apply text-xl font-semibold mb-2 mt-4 text-gray-800;
+}
+
+/* Paragraphs */
+.markdown-content p {
+  @apply mb-4 text-gray-700 leading-relaxed;
+}
+
+/* Lists */
+.markdown-content ul, .markdown-content ol {
+  @apply mb-4 pl-8;
+}
+
+.markdown-content li {
+  @apply mb-2;
+}
+
+/* Links */
+.markdown-content a {
+  @apply text-primary hover:underline;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4 text-gray-600;
+}
+
+/* Code blocks */
+.markdown-content pre {
+  @apply bg-gray-100 rounded-md p-4 overflow-x-auto my-4;
+}
+
+.markdown-content code {
+  @apply font-mono text-sm;
+}
+
+/* Inline code */
+.markdown-content :not(pre) > code {
+  @apply bg-gray-100 rounded px-1 py-0.5;
+}
+
+/* Images */
+.markdown-content img {
+  @apply max-w-full h-auto rounded-lg shadow-md my-4;
+}
+
+/* Tables */
+.markdown-content table {
+  @apply w-full border-collapse my-4;
+}
+
+.markdown-content th, .markdown-content td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+.markdown-content th {
+  @apply bg-gray-100 font-semibold;
+}
