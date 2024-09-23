@@ -3,6 +3,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { CSS, render } from "@deno/gfm";
 import { extract } from "$std/front_matter/yaml.ts";
+import { SectionHeaderTwoLevels } from "@components/SectionHeader.tsx";
 
 interface BlogPost {
   slug: string;
@@ -23,7 +24,7 @@ export const handler: Handlers<BlogPost> = {
       const post: BlogPost = {
         slug,
         title: attrs.title || "Untitled Post",
-        date: attrs.date || new Date().toISOString().split("T")[0],
+        date: attrs.date.toISOString().split("T")[0] || new Date().toISOString().split("T")[0],
         content: render(body),
       };
 
@@ -40,8 +41,6 @@ export const handler: Handlers<BlogPost> = {
 export default function BlogPost({ data: post }: PageProps<BlogPost | null>) {
   if (!post) {
     return (
-      <div class="min-h-screen bg-gray-100 text-gray-900">
-        <Navbar menuStatus={menuStatus} />
         <main class="mx-auto px-4 py-2 max-w-4xl">
           <h1 class="text-4xl font-bold mb-4">Post Not Found</h1>
           <p>Sorry, the requested blog post could not be found.</p>
@@ -51,7 +50,6 @@ export default function BlogPost({ data: post }: PageProps<BlogPost | null>) {
             </a>
           </div>
         </main>
-      </div>
     );
   }
 
@@ -63,8 +61,8 @@ export default function BlogPost({ data: post }: PageProps<BlogPost | null>) {
         <link rel="stylesheet" href="/markdown-styles.css" />
       </Head>
       <main class="mx-auto px-4 py-2 max-w-4xl">
-        <article class="p-8 mt-20">
-          <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+        <article class="mt-20">
+          <SectionHeaderTwoLevels text="Blog" href="/blog" text2={post.title} href2={`/blog/${post.slug}`}/>
           <time class="text-sm text-gray-500 mb-6 block">{post.date}</time>
           <div
             class="markdown-content"
