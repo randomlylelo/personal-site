@@ -64,6 +64,14 @@ export default function Home() {
               >
                 <Twitter size={24} />
               </a>
+              <a
+                href="mailto:lzhang3@caltech.edu"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-gray-600 hover:text-primary"
+              >
+                <Mail size={24} />
+              </a>
             </div>
           </section>
 
